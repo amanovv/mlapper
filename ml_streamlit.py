@@ -9,13 +9,22 @@ import pickle
 import joblib
 import wget
 import os
-
+from nlpend.parse_desc import Textparser
 MODEL_FILE_EXTENSION = ['.pt', '.pth', '.pkl', '.joblib', '.h5']
 
 
 def main():
     st.title("Here you can upload your model and turn it into ios apk or desktop exe")
     st.info("First, specify several stuff about your app")
+    parser = Textparser(0.1,1)
+    sentence_input = st.text_input("Please describe how you want to use machine learning")
+    if sentence_input is not None:
+        out_text = parser.extract(sentence_input)
+        out_keywords = parser.keywording(sentence_input)
+        #st.write(out_text)
+        st.markdown(out_keywords)
+       
+
     col_upload, col_link = st.columns(2)
     with col_upload:
         f = st.file_uploader("Upload your model")
@@ -41,8 +50,6 @@ def main():
             
             application_tp = st.selectbox("Please specify the application scenario", 
             ['Segmentation', 'Classification', 'Detection'])
-
-
 
 
 
